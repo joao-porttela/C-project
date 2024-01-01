@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 typedef struct utilizador
 {
@@ -13,13 +15,13 @@ typedef struct utilizador
 
 	// "Member functions" or "methods" that we implement from scratch
 	// Could embed these in another struct to change behaviour of different functions (polymorphism)
-	char (*getEmail)(struct utilizador *);
+	char *(*getEmail)(struct utilizador *);
 	void (*setEmail)(struct utilizador *, char email[100]);
 
-	char (*getName)(struct utilizador *);
+	char *(*getName)(struct utilizador *);
 	void (*setName)(struct utilizador *, char name[20]);
 
-	char (*getRole)(struct utilizador *);
+	char *(*getRole)(struct utilizador *);
 	void (*setRole)(struct utilizador *, char role[20]);
 } utilizador_t;
 
@@ -55,19 +57,20 @@ void setRole(utilizador_t *self, char *role)
 
 // void destroy_user(utilizador_t *self)
 // {
-// 	free((*self).email);
-// 	free((*self).name);
-// 	free((*self).role);
+// 	free(self->email);
+// 	free(self->name);
+// 	free(self->role);
 
 // 	free(self);
 // }
 
-utilizador_t *create_utilizador(char email, char name, char role)
+utilizador_t *create_utilizador(char *email, char *name, char *role)
 {
 	utilizador_t *newutilizador = (utilizador_t *)malloc(sizeof(utilizador_t));
 	// Store the pointer back to the memory that holds our actual object
 	(*newutilizador).self = newutilizador;
 	(*newutilizador).email == email;
+	(*newutilizador).name == name;
 	(*newutilizador).role == role;
 
 	// Set up the function pointers
@@ -88,9 +91,11 @@ int main()
 	utilizador_t *test = create_utilizador("test@gmail.com", "test", "utilizador");
 
 	// Retreive all values
-	printf((*test).getEmail);
-	printf((*test).getName);
-	printf((*test).getRole);
+	printf("%s", (*test).getEmail(test->self));
+	// printf((*test).getName);
+	// printf((*test).getRole);
+
+	// destroy_user(test);
 
 	return 0;
 }
