@@ -32,7 +32,7 @@ char *getEmail(utilizador_t *self)
 
 void setEmail(utilizador_t *self, char *email)
 {
-	(*self).email == email;
+	strcpy((*self).email, email);
 };
 
 char *getName(utilizador_t *self)
@@ -42,7 +42,7 @@ char *getName(utilizador_t *self)
 
 void setName(utilizador_t *self, char *name)
 {
-	(*self).name == name;
+	strcpy((*self).name, name);
 };
 
 char *getRole(utilizador_t *self)
@@ -52,26 +52,26 @@ char *getRole(utilizador_t *self)
 
 void setRole(utilizador_t *self, char *role)
 {
-	(*self).role == role;
+	strcpy((*self).role, role);
 };
 
-// void destroy_user(utilizador_t *self)
-// {
-// 	free(self->email);
-// 	free(self->name);
-// 	free(self->role);
+void destroy_user(utilizador_t *self)
+{
+	free(self->email);
+	free(self->name);
+	free(self->role);
 
-// 	free(self);
-// }
+	free(self);
+}
 
 utilizador_t *create_utilizador(char *email, char *name, char *role)
 {
 	utilizador_t *newutilizador = (utilizador_t *)malloc(sizeof(utilizador_t));
 	// Store the pointer back to the memory that holds our actual object
 	(*newutilizador).self = newutilizador;
-	(*newutilizador).email == email;
-	(*newutilizador).name == name;
-	(*newutilizador).role == role;
+	strcpy((*newutilizador).email, email);
+	strcpy((*newutilizador).name, name);
+	strcpy((*newutilizador).role, role);
 
 	// Set up the function pointers
 	(*newutilizador).getEmail = getEmail;
@@ -91,11 +91,11 @@ int main()
 	utilizador_t *test = create_utilizador("test@gmail.com", "test", "utilizador");
 
 	// Retreive all values
-	printf("%s", (*test).getEmail(test->self));
-	// printf((*test).getName);
-	// printf((*test).getRole);
+	printf("%s\n", (*test).getEmail(test->self));
+	printf("%s\n", (*test).getRole(test->self));
+	printf("%s\n", (*test).getName(test->self));
 
-	// destroy_user(test);
+	destroy_user(test);
 
 	return 0;
 }
