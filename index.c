@@ -67,21 +67,31 @@ void destroy_user(utilizador_t *self)
 utilizador_t *create_utilizador(char *email, char *name, char *role)
 {
 	utilizador_t *newutilizador = (utilizador_t *)malloc(sizeof(utilizador_t));
-	// Store the pointer back to the memory that holds our actual object
-	(*newutilizador).self = newutilizador;
-	strcpy((*newutilizador).email, email);
-	strcpy((*newutilizador).name, name);
-	strcpy((*newutilizador).role, role);
+	if (newutilizador != NULL)
+	{
+		// Store the pointer back to the memory that holds our actual object
+		(*newutilizador).self = newutilizador;
 
-	// Set up the function pointers
-	(*newutilizador).getEmail = getEmail;
-	(*newutilizador).setEmail = setEmail;
+		// Use strncpy to avoid buffer overflows
+		strncpy((*newutilizador).email, email, sizeof((*newutilizador).email) - 1);
+		(*newutilizador).email[sizeof((*newutilizador).email) - 1] = '\0';
 
-	(*newutilizador).getName = getName;
-	(*newutilizador).setName = setName;
+		strncpy((*newutilizador).name, name, sizeof((*newutilizador).name) - 1);
+		(*newutilizador).name[sizeof((*newutilizador).name) - 1] = '\0';
 
-	(*newutilizador).getRole = getRole;
-	(*newutilizador).setRole = setRole;
+		strncpy((*newutilizador).role, role, sizeof((*newutilizador).role) - 1);
+		(*newutilizador).role[sizeof((*newutilizador).role) - 1] = '\0';
+
+		// Set up the function pointers
+		(*newutilizador).getEmail = getEmail;
+		(*newutilizador).setEmail = setEmail;
+
+		(*newutilizador).getName = getName;
+		(*newutilizador).setName = setName;
+
+		(*newutilizador).getRole = getRole;
+		(*newutilizador).setRole = setRole;
+	}
 
 	return newutilizador;
 };
